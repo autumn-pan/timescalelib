@@ -51,8 +51,28 @@ class timescale:
     min_interval = min(interval.start for interval in self.intervals) if self.intervals else float('inf')
     min_scattered = min(self.scattered_points) if self.scattered_points else float('inf')
     return min(min_interval, min_scattered)
-
   
+  def right_dense_points(self):
+    # Returns a list of all scattered points as well as the right endpoints of all intervals
+    right_dense = [interval.end for interval in self.intervals] + self.scattered_points
+    right_dense.sort()
+    return right_dense
+
+  def forward_jump(self, t):
+    # The forward jump of t in ts is the smallest point in the timescale that is greater than t
+    # If t is the upper bound of the timescale, then it is its own forward jump
+    if t == self.max():
+      return t
+    
+    # Likewise, if t is within an interval and it is not the upper bound of the interval, then its forward jump is itself
+    for interval in self.intervals:
+      if interval.start <= t < interval.end:
+        return t
+      
+    # Otherwise, we need to find the smallest point in the timescale that is greater than t
+    candidates = [interval.start for interval in self.intervals if interval.start > t] + [point for point in self.scattered_points if point > t]
+    return min(candidates)
+
   def __repr__(self):
     return f"timescale(intervals={self.intervals}, scattered_points={self.scattered_points})"
   
