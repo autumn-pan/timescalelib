@@ -1,5 +1,6 @@
 # timescalelib/operators/jumps.py
 
+
 class JumpOperatorsMixin:
   def right_dense_points(self):
     # Returns a list of all scattered points as well as the right endpoints of all intervals

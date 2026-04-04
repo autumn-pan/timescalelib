@@ -4,9 +4,10 @@ import numpy as np
 from utils.extremum import ExtremumMixin
 from utils.simplify import SimplifyMixin
 from utils.set import SetUtilsMixin
-
 from operators.jumps import JumpOperatorsMixin
 from operators.graininess import GraininessMixin
+from operators.derivatives import DerivativesMixin
+
 class interval:
   def __init__(self, start, end):
     self.start = start
@@ -20,7 +21,9 @@ class TimeScale(
   ExtremumMixin, 
   SimplifyMixin, 
   JumpOperatorsMixin, 
-  GraininessMixin
+  GraininessMixin,
+  DerivativesMixin,
+  SetUtilsMixin
 ): 
   # The timescale is by definition, a union of intervals and scattered points.
   def __init__(self, intervals, scattered_points):
