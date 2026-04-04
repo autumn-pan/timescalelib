@@ -23,3 +23,24 @@ class SimplifyMixin:
     self.scattered_points = list(set(self.scattered_points))
     # Finally, we remove scattered points that are within intervals
     self.scattered_points = [point for point in self.scattered_points if not any(interval.start <= point <= interval.end for interval in self.intervals)]
+
+  def order(self):
+    # Returns an ordered list of all points and intervals in the time-scale
+    ordered = []
+    remaining_points = set(self.scattered_points)
+    for interval in self.intervals:
+      # Add all points that are less than the start of the interval
+      for point in remaining_points:
+        if point < interval.start:
+          ordered.append(point)
+          remaining_points.remove(point)
+        else:
+          break
+      # Add the interval
+      ordered.append(interval)
+
+    # Add any remaining points
+    for point in remaining_points:
+      ordered.append(point)
+    return ordered
+  
