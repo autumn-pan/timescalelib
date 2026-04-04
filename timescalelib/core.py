@@ -72,6 +72,21 @@ class timescale:
     # Otherwise, we need to find the smallest point in the timescale that is greater than t
     candidates = [interval.start for interval in self.intervals if interval.start > t] + [point for point in self.scattered_points if point > t]
     return min(candidates)
+  
+  def backward_jump(self, t):
+    # The backward jump of t in ts is the largest point in the timescale that is less than t
+    # If t is the lower bound of the timescale, then it is its own backward jump
+    if t == self.min():
+      return t
+    
+    # Likewise, if t is within an interval and it is not the lower bound of the interval, then its backward jump is itself
+    for interval in self.intervals:
+      if interval.start < t <= interval.end:
+        return t
+      
+    # Otherwise, we need to find the largest point in the timescale that is less than t
+    candidates = [interval.end for interval in self.intervals if interval.end < t] + [point for point in self.scattered_points if point < t]
+    return max(candidates)
 
   def __repr__(self):
     return f"timescale(intervals={self.intervals}, scattered_points={self.scattered_points})"
