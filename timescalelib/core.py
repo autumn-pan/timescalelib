@@ -87,6 +87,14 @@ class timescale:
     # Otherwise, we need to find the largest point in the timescale that is less than t
     candidates = [interval.end for interval in self.intervals if interval.end < t] + [point for point in self.scattered_points if point < t]
     return max(candidates)
+  
+  def graininess(self, t):
+    # The graininess of t in ts is the distance between t and its forward jump
+    return self.forward_jump(t) - t
+  
+  def backward_graininess(self, t):
+    # The backward graininess of t in ts is the distance between t and its backward jump
+    return t - self.backward_jump(t)
 
   def __repr__(self):
     return f"timescale(intervals={self.intervals}, scattered_points={self.scattered_points})"
