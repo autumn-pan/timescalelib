@@ -3,9 +3,10 @@ import numpy as np
 
 from utils.extremum import ExtremumMixin
 from utils.simplify import SimplifyMixin
+from utils.set import SetUtilsMixin
+
 from operators.jumps import JumpOperatorsMixin
 from operators.graininess import GraininessMixin
-
 class interval:
   def __init__(self, start, end):
     self.start = start
@@ -15,7 +16,7 @@ class interval:
     return f"interval({self.start}, {self.end})"
     
 
-class timescale(
+class TimeScale(
   ExtremumMixin, 
   SimplifyMixin, 
   JumpOperatorsMixin, 
