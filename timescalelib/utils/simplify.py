@@ -44,3 +44,11 @@ class SimplifyMixin:
       ordered.append(point)
     return ordered
   
+  def round_to_ts(self, threshold, t):
+    # Rounds t to the nearest significant point in the timescale within the threshold to account for floating point errors
+    # A significant point is either a scattered point or an endpoint of an interval
+    significant_points = [interval.start for interval in self.intervals] + [interval.end for interval in self.intervals] + self.scattered_points
+    for point in significant_points:
+      if abs(point - t) <= threshold:
+        return point
+    return t
