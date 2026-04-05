@@ -13,3 +13,7 @@ class ExtremumMixin:
     min_scattered = min(self.scattered_points) if self.scattered_points else float('inf')
     return min(min_interval, min_scattered)
   
+  def range(self):
+    # The range of the timescale is the interval from the minimum to the maximum
+    return (self.min(), self.max())
+  
