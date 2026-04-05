@@ -53,3 +53,19 @@ class TimeScaleGenerator:
       scattered_points.append(t)
       t *= ratio
     return TimeScale(intervals, scattered_points)
+  
+  def quantum_timescale(self, lower_bound, upper_bound, base):
+    # Generates a timescale from lower_bound to upper_bound where the points in the timescale are all points of the form base^n for n an integer such that base^n >= lower_bound and base^n <= upper_bound
+    if base == 0:
+      raise ValueError("Base cannot be zero.")
+    
+    intervals = []
+    scattered_points = []
+    n = 0
+    t = base ** n
+    while t <= upper_bound:
+      if t >= lower_bound:
+        scattered_points.append(t)
+      n += 1
+      t = base ** n
+    return TimeScale(intervals, scattered_points)
