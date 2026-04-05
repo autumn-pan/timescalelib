@@ -20,4 +20,12 @@ Integer time-scales can be generated with the `TimeScaleGenerator.integer_timesc
 Geometric sequences can be encoded into time-scales using the `TimeScaleGenerator.geometric_timescale(self, lower_bound, upper_bound, ratio)` method, with the initial value being `lower_bound` and the geometric ratio being `ratio`. 
 
 `TimeScaleGenerator.quantum_timescale(self, lower_bound, upper_bound, base)` generates a time-scale with scattered points of the form `b^n`, where `n` is a natural, and `b != 0`.
+### Set Operations with Time-Scales
+`TimeScale.element_of(self, t)` determines whether or not a number `t` is an element of the the corresponding time-scale
+
+`TimeScale.append_point(self, t)` returns the union of the time-scale and `t`
+
+`TimeScale.subset(self, other)` determines if `self` is a subset of `other`, for `other` is also a time-scale
+
+`TimeScale.union(self, other)` finds the union between the two time-scales
 
