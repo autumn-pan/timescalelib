@@ -2,7 +2,6 @@
 
 from timescalelib.core import TimeScale
 
-
 class SetUtilsMixin:
   def is_subset(self, other):
     # Returns true if self is a subset of other, false otherwise
@@ -40,3 +39,8 @@ class SetUtilsMixin:
       if interval.start <= t <= interval.end:
         return True
     return False
+  
+  def append_point(self, t):
+    # Appends a point to the timescale, if it is not already an element of the timescale
+    self.scattered_points.append(t)
+    self.simplify()

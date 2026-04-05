@@ -37,4 +37,3 @@ class JumpOperatorsMixin:
     # Otherwise, we need to find the largest point in the timescale that is less than t
     candidates = [interval.end for interval in self.intervals if interval.end < t] + [point for point in self.scattered_points if point < t]
     return max(candidates)
-  
