@@ -34,6 +34,6 @@ The forward-jump of a time-scale at `t` returns the least upper bound of all ele
 
 Like the forward jump, the backwards jump of a time-scale at `t` is the greatest upper bound of all elements in the time-scale less than `t`, and can be thought of as the "previous" value in the time-scale. It is represented in this library with the method `TimeScale.backwards_jump(self, t)`. If `t` is the minimum of the time scale, then it returns `t`.
 
-The graininess of a time-scale at `t` is essentially the distance between `t` and its forward jump. It is represented by the methof `TimeScale.graininess(self, t)`, and its counterpart for the backwards jump is the method `TimeScale.backwards_graininess(self, t)`
+The graininess of a time-scale at `t` is essentially the distance between `t` and its forward jump. It is represented by the method `TimeScale.graininess(self, t)`, and its counterpart for the backwards jump is the method `TimeScale.backwards_graininess(self, t)`
 
 
