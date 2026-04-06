@@ -19,9 +19,9 @@ class StatMixin:
     # The range of the timescale is the interval from the minimum to the maximum
     return (self.min(), self.max())
   
-  def mean(self):
+  def mean(self, f):
     # The mean of a timescale calculated with integrals
     if not self.intervals and not self.scattered_points:
       raise ValueError("Cannot calculate mean of an empty timescale")    
     
-    return delta_integral(lambda t: t, self) / self.range()
+    return delta_integral(f, self) / self.range()

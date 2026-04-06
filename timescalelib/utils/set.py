@@ -44,3 +44,10 @@ class SetUtilsMixin:
     # Appends a point to the timescale, if it is not already an element of the timescale
     self.scattered_points.append(t)
     self.simplify()
+
+  def IntervalOfPoint(self, t):
+    # Returns the interval that contains t, if it exists, None otherwise
+    for interval in self.intervals:
+      if interval.start <= t <= interval.end:
+        return interval
+    return None
