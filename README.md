@@ -29,3 +29,11 @@ Geometric sequences can be encoded into time-scales using the `TimeScaleGenerato
 
 `TimeScale.union(self, other)` finds the union between the two time-scales
 
+### Basic Time-Scale Operations
+The forward-jump of a time-scale at `t` returns the least upper bound of all elements of the time-scale greater than `t`. It can be thought of as returning the "next" value in the time-scale. It is represented in this library with the method `TimeScale.forward_jump(self, t)`. If `t` is the maximum of the time-scale, then the forward jump is `t`. 
+
+Like the forward jump, the backwards jump of a time-scale at `t` is the greatest upper bound of all elements in the time-scale less than `t`, and can be thought of as the "previous" value in the time-scale. It is represented in this library with the method `TimeScale.backwards_jump(self, t)`. If `t` is the minimum of the time scale, then it returns `t`.
+
+The graininess of a time-scale at `t` is essentially the distance between `t` and its forward jump. It is represented by the methof `TimeScale.graininess(self, t)`, and its counterpart for the backwards jump is the method `TimeScale.backwards_graininess(self, t)`
+
+
