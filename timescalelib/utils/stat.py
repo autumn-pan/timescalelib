@@ -1,6 +1,6 @@
 # timescalelib/utils/extremum.py
 
-class ExtremumMixin:
+class StatMixin:
   def max(self):
     # The maximum of the timescale is the maximum of the end points of the intervals and the maximum of the scattered points
     max_interval = max(interval.end for interval in self.intervals) if self.intervals else float('-inf')

@@ -41,4 +41,3 @@ class IntegralsMixin:
       sum += f(point) * self.backward_graininess(point)
 
     return sum
-

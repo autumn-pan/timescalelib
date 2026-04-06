@@ -1,7 +1,7 @@
 import array
 import numpy as np
 
-from utils.extremum import ExtremumMixin
+from utils.stat import StatMixin
 from utils.simplify import SimplifyMixin
 from utils.set import SetUtilsMixin
 
