@@ -2,6 +2,11 @@ class Interval:
   def __init__(self, start, end):
     self.start = start
     self.end = end
+    
+  def __eq__(self, other):
+    if not isinstance(other, Interval):
+      return NotImplemented
+    return self.start == other.start and self.end == other.end
 
   def __repr__(self):
     return f"Interval({self.start}, {self.end})"
@@ -21,34 +26,17 @@ class TimeScale:
           4. Any scattered point that falls within an interval is removed from the scattered points list, as it is already covered by the interval.
     '''
     self.intervals = intervals
-    scattered_points = set(scattered_points)
-    for interval in intervals:
-      for point in scattered_points:
-        if interval.start <= point <= interval.end:
-          scattered_points.remove(point)
-    
-    # Merge overlapping intervals
-    self.intervals.sort(key=lambda x: x.start)
-    merged_intervals = []
-    current_interval = self.intervals[0]
-    for next_interval in self.intervals[1:]:
-      if current_interval.end >= next_interval.start:
-        current_interval.end = max(current_interval.end, next_interval.end)
-      else:
-        merged_intervals.append(current_interval)
-        current_interval = next_interval
-      merged_intervals.append(current_interval)
-
-    for interval in merged_intervals:
-      if interval.start == interval.end:
-        scattered_points.append(interval.start)
-        merged_intervals.remove(interval)
-
-    self.intervals = merged_intervals
-    self.scattered_points = sorted(scattered_points)
+    self.scattered_points = scattered_points
       
+    def __eq__(self, other):
+      if not isinstance(other, TimeScale):
+        return NotImplemented
+      return self.intervals == other.intervals and self.scattered_points == other.scattered_points
+    
     def __repr__(self):
         return f"TimeScale({self.intervals})"
     
-from .basic.jump import forward_jump
+from .basic.jump import forward_jump, backward_jump
 TimeScale.forward_jump = forward_jump
+TimeScale.backward_jump = backward_jump
+

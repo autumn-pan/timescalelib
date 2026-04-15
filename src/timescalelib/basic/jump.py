@@ -21,3 +21,27 @@ def forward_jump(self, t):
       return point
   
   return t
+
+def backward_jump(self, t):
+  '''Returns the previous point in the TimeScale that is less than t.
+  
+      Args:
+        t (int): The time point to jump from.
+
+      Returns:
+        int: The previous point in the TimeScale that is less than t, or t if there is no such point.
+  '''
+  left_scattered_points = [point for point in self.scattered_points]
+
+  # Check intervals first
+  for interval in self.intervals:
+    if interval.start < t <= interval.end:
+      return t
+    left_scattered_points.append(interval.end)
+  
+  
+  for point in sorted(left_scattered_points, reverse=True):
+    if point < t:
+      return point
+  
+  return t
