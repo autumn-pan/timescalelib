@@ -50,3 +50,5 @@ class TimeScale:
     def __repr__(self):
         return f"TimeScale({self.intervals})"
     
+from .basic.jump import forward_jump
+TimeScale.forward_jump = forward_jump
