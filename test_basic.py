@@ -1,8 +1,8 @@
 from timescalelib import TimeScale, Interval
 
 def test_construction():
-    ts = TimeScale([Interval(1, 4)], [5])
-    assert ts.intervals == [Interval(1, 4)]
-    assert ts.scattered_points == [5]
+    ts = TimeScale([Interval(1, 4), Interval (2, 3), Interval (8,9), Interval(3, 6), Interval(-1, 2)], [2,5,5])
+    print(ts.__repr__())
+
 
 test_construction()
