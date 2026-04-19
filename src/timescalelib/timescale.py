@@ -1,5 +1,4 @@
-from timescalelib.basic.jump import forward_jump
-from timescalelib.basic.jump import backward_jump
+from .basic import JumpMixin
 
 class Interval:
   def __init__(self, start, end):
@@ -14,7 +13,7 @@ class Interval:
   def __repr__(self):
     return f"Interval({self.start}, {self.end})"
     
-class TimeScale:
+class TimeScale(JumpMixin):
   def __init__(self, intervals, scattered_points):
     '''Initialize the TimeScale with a list of intervals and scattered points.
     
@@ -32,6 +31,11 @@ class TimeScale:
 
     # Clean up scattered points
     self.scattered_points = [point for point in scattered_points if not any(interval.start <= point <= interval.end for interval in intervals)]
+    for interval in intervals:
+      if interval.start == interval.end:
+        self.scattered_points.append(interval.start)
+
+    self.intervals = [interval for interval in intervals if interval.start != interval.end]
     # Remove duplicate scattered points
     self.scattered_points = list(set(self.scattered_points))      
     self.scattered_points.sort()
@@ -53,7 +57,3 @@ class TimeScale:
     
   def __repr__(self):
     return f"TimeScale(intervals={self.intervals}, scattered_points={self.scattered_points})"
-    
-TimeScale.forward_jump = forward_jump
-TimeScale.backward_jump = backward_jump
-
