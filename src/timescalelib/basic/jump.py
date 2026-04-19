@@ -1,14 +1,14 @@
 class JumpMixin:
   '''Mixin class that provides jump functionality for TimeScale.'''
     
-  def forward_jump(self, t):
+  def forward_jump(self, t: float):
     '''Returns the next point in the TimeScale that is greater than t.
     
         Args:
-          t (int): The time point to jump from.
+          t (float): The time point to jump from.
 
         Returns:
-          int: The next point in the TimeScale that is greater than t, or t if there is no such point.
+          float: The next point in the TimeScale that is greater than t, or t if there is no such point.
     '''
     left_scattered_points = [point for point in self.scattered_points]
 
@@ -25,14 +25,14 @@ class JumpMixin:
     
     return t
 
-  def backward_jump(self, t):
+  def backward_jump(self, t: float):
     '''Returns the previous point in the TimeScale that is less than t.
     
         Args:
-          t (int): The time point to jump from.
+          t (float): The time point to jump from.
 
         Returns:
-          int: The previous point in the TimeScale that is less than t, or t if there is no such point.
+          float: The previous point in the TimeScale that is less than t, or t if there is no such point.
     '''
     left_scattered_points = [point for point in self.scattered_points]
 

@@ -1,11 +1,12 @@
 from .basic import JumpMixin
+from .basic import GrainMixin
 
 class Interval:
-  def __init__(self, start, end):
+  def __init__(self, start: float, end: float):
     self.start = start
     self.end = end
 
-  def __eq__(self, other):
+  def __eq__(self, other: Interval) -> bool:
     if not isinstance(other, Interval):
       return NotImplemented
     return self.start == other.start and self.end == other.end
@@ -13,8 +14,9 @@ class Interval:
   def __repr__(self):
     return f"Interval({self.start}, {self.end})"
     
-class TimeScale(JumpMixin):
-  def __init__(self, intervals, scattered_points):
+class TimeScale(JumpMixin,
+                GrainMixin):
+  def __init__(self, intervals: list, scattered_points: list):
     '''Initialize the TimeScale with a list of intervals and scattered points.
     
         Args:
@@ -49,8 +51,8 @@ class TimeScale(JumpMixin):
       else:
         merged_intervals[-1].end = max(merged_intervals[-1].end, interval.end)
     self.intervals = merged_intervals
-      
-  def __eq__(self, other):
+
+  def __eq__(self, other: TimeScale) -> bool:
     if not isinstance(other, TimeScale):
       return NotImplemented
     return self.intervals == other.intervals and self.scattered_points == other.scattered_points
