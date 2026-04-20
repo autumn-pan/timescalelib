@@ -42,6 +42,12 @@ def test_graininess():
     assert ts.grain(4) == 1
     assert ts.grain(5) == 0
 
+    assert ts.backwards_grain(1) == 0
+    assert ts.backwards_grain(2) == 0
+    assert ts.backwards_grain(3) == 0
+    assert ts.backwards_grain(4) == 0
+    assert ts.backwards_grain(5) == 1
+
 test_construction()
 test_forward_jump()
 test_backward_jump()

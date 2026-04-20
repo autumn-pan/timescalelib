@@ -1,6 +1,3 @@
-from .basic import JumpMixin
-from .basic import GrainMixin
-
 class Interval:
   def __init__(self, start: float, end: float):
     self.start = start
@@ -14,8 +11,7 @@ class Interval:
   def __repr__(self):
     return f"Interval({self.start}, {self.end})"
     
-class TimeScale(JumpMixin,
-                GrainMixin):
+class TimeScale():
   def __init__(self, intervals: list, scattered_points: list):
     '''Initialize the TimeScale with a list of intervals and scattered points.
     
@@ -57,5 +53,84 @@ class TimeScale(JumpMixin,
       return NotImplemented
     return self.intervals == other.intervals and self.scattered_points == other.scattered_points
     
+  
+  def grain(self, t: float):
+    '''Returns the graininess of TimeScale at t
+    
+        Args:
+          t (float): The time point to check the graininess of.
+
+        Returns:
+          float: The graininess of the TimeScale at t, which is the distance to the next point in the TimeScale.
+    '''
+    for interval in self.intervals:
+      if interval.start <= t < interval.end:
+        return 0
+    
+    return self.forward_jump(t) - t
+  
+  def backwards_grain(self, t: float):
+    '''Returns the backward graininess of TimeScale at t
+    
+        Args:
+          t (float): The time point to check the backward graininess of.
+
+        Returns:
+          float: The backward graininess of the TimeScale at t, which is the distance to the previous point in the TimeScale.
+    '''
+    for interval in self.intervals:
+      if interval.start < t <= interval.end:
+        return 0
+    
+    return t - self.backward_jump(t)
+  
+  def forward_jump(self, t: float):
+    '''Returns the next point in the TimeScale that is greater than t.
+    
+        Args:
+          t (float): The time point to jump from.
+
+        Returns:
+          float: The next point in the TimeScale that is greater than t, or t if there is no such point.
+    '''
+    left_scattered_points = [point for point in self.scattered_points]
+
+    # Check intervals first
+    for interval in self.intervals:
+      if interval.start <= t < interval.end:
+        return t
+      left_scattered_points.append(interval.start)
+    
+    
+    for point in left_scattered_points:
+      if point > t:
+        return point
+    
+    return t
+
+  def backward_jump(self, t: float):
+    '''Returns the previous point in the TimeScale that is less than t.
+    
+        Args:
+          t (float): The time point to jump from.
+
+        Returns:
+          float: The previous point in the TimeScale that is less than t, or t if there is no such point.
+    '''
+    left_scattered_points = [point for point in self.scattered_points]
+
+    # Check intervals first
+    for interval in self.intervals:
+      if interval.start < t <= interval.end:
+        return t
+      left_scattered_points.append(interval.end)
+    
+    
+    for point in sorted(left_scattered_points, reverse=True):
+      if point < t:
+        return point
+    
+    return t
+  
   def __repr__(self):
     return f"TimeScale(intervals={self.intervals}, scattered_points={self.scattered_points})"
