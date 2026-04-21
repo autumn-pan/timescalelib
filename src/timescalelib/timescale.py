@@ -68,6 +68,8 @@ class TimeScale():
         return 0
     
     return self.forward_jump(t) - t
+  # Alias for convenience
+  mu = grain
   
   def backwards_grain(self, t: float):
     '''Returns the backward graininess of TimeScale at t
@@ -83,7 +85,9 @@ class TimeScale():
         return 0
     
     return t - self.backward_jump(t)
-  
+  # Alias for convenience
+  nu = backwards_grain
+
   def forward_jump(self, t: float):
     '''Returns the next point in the TimeScale that is greater than t.
     
@@ -107,6 +111,8 @@ class TimeScale():
         return point
     
     return t
+  # Alias for convenience
+  sigma = forward_jump
 
   def backward_jump(self, t: float):
     '''Returns the previous point in the TimeScale that is less than t.
@@ -131,7 +137,9 @@ class TimeScale():
         return point
     
     return t
-  
+  # Alias for convenience
+  rho = backward_jump
+
   def in_timescale(self, t: float):
     '''Returns True if t is in TimeScale, False otherwise.
 
