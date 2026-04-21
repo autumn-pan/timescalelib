@@ -1,5 +1,7 @@
 from timescalelib import TimeScale, Interval
 
+import math
+
 def test_construction():
     ts = TimeScale([Interval(1, 4), Interval (2, 3), Interval (8,9), Interval(3, 6), Interval(-1, 2)], [2,5,5])
     print(ts.__repr__())
@@ -48,6 +50,25 @@ def test_graininess():
     assert ts.backwards_grain(4) == 0
     assert ts.backwards_grain(5) == 1
 
+def test_in_timescale():
+    ts = TimeScale([Interval(1, 4), Interval(6, 7)], [5])
+
+    assert ts.in_timescale(1) == True
+    assert ts.in_timescale(1.5) == True
+    assert ts.in_timescale(math.pi) == True
+    assert ts.in_timescale(1) == True
+    assert ts.in_timescale(5) == True
+
+    assert ts.in_timescale(math.inf) == False
+    assert ts.in_timescale(0) == False
+    assert ts.in_timescale(4.5) == False
+    assert ts.in_timescale(6) == True
+    assert ts.in_timescale(5.5) == False
+    assert ts.in_timescale(7) == True
+    assert ts.in_timescale(9) == False
+
+
+test_in_timescale()
 test_construction()
 test_forward_jump()
 test_backward_jump()

@@ -132,5 +132,23 @@ class TimeScale():
     
     return t
   
+  def in_timescale(self, t: float):
+    '''Returns True if t is in TimeScale, False otherwise.
+
+        Args:
+          t (float): The point to validate
+
+        Returns:
+          bool: Whether or not t is in TimeSclae
+    '''
+    if t in self.scattered_points:
+      return True
+    
+    for interval in self.intervals:
+      if interval.start <= t <= interval.end:
+        return True
+      
+    return False
+  
   def __repr__(self):
     return f"TimeScale(intervals={self.intervals}, scattered_points={self.scattered_points})"
