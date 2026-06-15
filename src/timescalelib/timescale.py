@@ -1,5 +1,8 @@
 class Interval:
   def __init__(self, start: float, end: float):
+    if start > end:
+      raise ValueError("Interval start must be less than or equal to end")
+    
     self.start = start
     self.end = end
 
@@ -25,7 +28,9 @@ class TimeScale():
           3. Any interval that reduces to a single point (where start == end) is converted to a scattered point and removed from the intervals list.
           4. Any scattered point that falls within an interval is removed from the scattered points list, as it is already covered by the interval.
     '''
-    self.intervals = intervals
+    # Ensure the set is nonempty
+    if not intervals and not scattered_points:
+      raise ValueError("At least one interval or scattered point must be provided")
 
     # Clean up scattered points
     self.scattered_points = [point for point in scattered_points if not any(interval.start <= point <= interval.end for interval in intervals)]
@@ -71,7 +76,7 @@ class TimeScale():
   # Alias for convenience
   mu = grain
   
-  def backwards_grain(self, t: float):
+  def backward_grain(self, t: float):
     '''Returns the backward graininess of TimeScale at t
     
         Args:
@@ -86,7 +91,7 @@ class TimeScale():
     
     return t - self.backward_jump(t)
   # Alias for convenience
-  nu = backwards_grain
+  nu = backward_grain
 
   def forward_jump(self, t: float):
     '''Returns the next point in the TimeScale that is greater than t.
@@ -139,16 +144,31 @@ class TimeScale():
     return t
   # Alias for convenience
   rho = backward_jump
-
-  def in_timescale(self, t: float):
-    '''Returns True if t is in TimeScale, False otherwise.
-
-        Args:
-          t (float): The point to validate
-
+  
+  def supremum(self):
+    '''Returns the supremum (maximum) of the timescale.
+    
         Returns:
-          bool: Whether or not t is in TimeSclae
+          float: The supremum of the timescale, which is the maximum point in the timescale.
     '''
+
+    max_scattered = max(self.scattered_points) if self.scattered_points else float('-inf')
+    max_interval = max((interval.end for interval in self.intervals), default=float('-inf'))
+    # Negative infinity should never be returned because the timescale must be nonempty
+    return max(max_scattered, max_interval)
+
+  def infimum(self):
+    '''Returns the infimum (minimum) of the timescale.
+    
+        Returns:
+          float: The infimum of the timescale, which is the minimum point in the timescale.
+    '''
+    min_scattered = min(self.scattered_points) if self.scattered_points else float('inf')
+    min_interval = min((interval.start for interval in self.intervals), default=float('inf'))
+    # Infinity should never be returned because the timescale must be nonempty
+    return min(min_scattered, min_interval)
+  
+  def __contains__(self, t: float):
     if t in self.scattered_points:
       return True
     
